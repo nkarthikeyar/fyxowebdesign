@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FYXO Spaces | One Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #071017;
+      --panel: #0d1b26;
+      --panel-2: #102436;
+      --line: #1f3f55;
+      --text: #eef6ff;
+      --muted: #9db0c1;
+      --accent: #17d6ff;
+      --accent-2: #5cf5c1;
+      --hot: #ffb761;
+      --shadow: rgba(2, 9, 14, 0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 85% -10%, rgba(23, 214, 255, 0.2), transparent 60%),
+        radial-gradient(780px 360px at -10% 15%, rgba(92, 245, 193, 0.14), transparent 55%),
+        linear-gradient(160deg, #040b10, #081522 55%, #081a2a);
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .container { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      backdrop-filter: blur(12px);
+      background: rgba(6, 14, 20, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .topbar .container {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand {
+      font-family: "Sora", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .brand span { color: var(--accent); }
+    main { padding: 3.2rem 0 3rem; display: grid; gap: 1.5rem; position: relative; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .hero-copy,
+    .panel,
+    .card,
+    .list-item,
+    details {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border-radius: 18px;
+      padding: 1.1rem;
+      box-shadow: 0 26px 60px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    h1 {
+      font-family: "Sora", sans-serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+    .lead { color: var(--muted); line-height: 1.7; max-width: 55ch; margin-bottom: 1rem; }
+    .hero-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .cta {
+      display: inline-flex;
+      text-decoration: none;
+      color: #03212b;
+      background: linear-gradient(135deg, var(--accent), #66f1ff);
+      border-radius: 999px;
+      font-weight: 700;
+      padding: 0.72rem 1rem;
+      box-shadow: 0 12px 28px rgba(0, 213, 255, 0.28);
+    }
+    .cta.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .panel h2,
+    .section-title {
+      color: var(--accent);
+      font-family: "Sora", sans-serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .panel p { color: var(--muted); line-height: 1.55; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .chip {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .deck {
+      perspective: 1200px;
+      display: grid;
+      gap: 0.9rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .card {
+      background: linear-gradient(155deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      transform: translateZ(0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .card:hover { transform: translateY(-6px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); border-color: var(--accent); }
+    .card h3 { font-family: "Sora", sans-serif; font-size: 1.02rem; margin-bottom: 0.4rem; color: var(--accent-2); }
+    .card p { color: var(--muted); line-height: 1.55; font-size: 0.95rem; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+    .timeline { display: grid; gap: 0.8rem; }
+    .step {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 0.8rem;
+      align-items: start;
+      background: linear-gradient(165deg, var(--panel), #0f2436);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.9rem;
+      box-shadow: 0 18px 36px var(--shadow);
+    }
+    .badge { font-family: "Sora", sans-serif; color: var(--accent); }
+    .step p { color: var(--muted); line-height: 1.55; }
+
+    .list { display: grid; gap: 0.8rem; }
+    .list-item {
+      background: linear-gradient(165deg, var(--panel), #0f2234);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+    }
+    .list-item strong { font-family: "Sora", sans-serif; color: var(--accent); display: block; margin-bottom: 0.2rem; }
+    .list-item span { color: var(--muted); }
+
+    details {
+      background: linear-gradient(165deg, var(--panel), #0f2234);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+    }
+    summary { font-family: "Sora", sans-serif; cursor: pointer; color: var(--accent); }
+    details p { margin-top: 0.5rem; color: var(--muted); line-height: 1.6; }
+
+    .demo-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1rem; }
+    .preview {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #02080d;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .overlay { position: absolute; inset: 0; pointer-events: none; }
+    .scan-line { position: absolute; left: 0; right: 0; height: 2px; background: var(--accent); opacity: 0.7; animation: scan 2.7s linear infinite; }
+    @keyframes scan { 0%{ top:5%; } 100%{ top:95%; } }
+
+    .btns { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.7rem; }
+    button {
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #79edff);
+      color: #022734;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.62rem 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 12px 24px rgba(0, 213, 255, 0.22);
+    }
+    .muted-btn { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.16); box-shadow: none; }
+    .status { margin-top: 0.55rem; color: var(--muted); font-size: 0.92rem; line-height: 1.5; min-height: 1.4rem; }
+    .form-grid { display: grid; gap: 0.6rem; }
+    label { display: grid; gap: 0.28rem; color: var(--muted); font-size: 0.9rem; }
+    input[type="number"], input[type="range"] { width: 100%; }
+    input[type="number"] {
+      background: #081622;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px;
+      padding: 0.55rem 0.6rem;
+    }
+    .result {
+      margin-top: 0.8rem;
+      border: 1px solid rgba(84,255,194,0.35);
+      background: rgba(84,255,194,0.08);
+      border-radius: 12px;
+      padding: 0.7rem;
+    }
+    .result strong { color: var(--accent-2); font-family: "Sora", sans-serif; font-size: 1.15rem; }
+    .note { color: var(--muted); font-size: 0.86rem; line-height: 1.55; margin-top: 0.7rem; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .contact-item {
+      background: linear-gradient(165deg, var(--panel), #0f2234);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.85rem;
+      box-shadow: 0 18px 36px var(--shadow);
+    }
+    .contact-item span { display: block; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.2rem; }
+    .contact-item strong, .contact-item a { color: var(--text); text-decoration: none; }
+
+    .orb {
+      position: absolute;
+      right: -120px;
+      top: 120px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(92,245,193,0.9), rgba(23,214,255,0.2), transparent 65%);
+      filter: blur(1px);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .reveal { animation: rise 0.85s ease both; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding: 1rem 0 1.6rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .deck { grid-template-columns: 1fr 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .deck { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; }
+      .topbar .container { padding: 0.75rem 0; }
+      .orb { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="fyxo%20home.html">FYXO <span>Spaces</span></a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="orb" aria-hidden="true"></div>
+    <section class="hero">
+      <article class="hero-copy reveal">
+        <h1>FYXO Spaces. Camera-based wall measurement for modern teams.</h1>
+        <p class="lead">A single, professional briefing page that covers the pitch, logic, workflow, benefits, and a live demo in one scroll-ready experience.</p>
+        <div class="hero-actions">
+          <a class="cta" href="#demo">Jump to Live Demo</a>
+          <a class="cta secondary" href="#benefits">See Key Benefits</a>
+        </div>
+      </article>
+      <aside class="panel reveal">
+        <h2>Brand Copy</h2>
+        <p>FYXO Spaces helps interior and construction teams estimate wall height through mobile camera-assisted measurement workflows.</p>
+        <p class="note">Built to reduce manual effort and deliver quick, planning-grade measurements.</p>
+      </aside>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">Product Pitch</h2>
+        <span class="chip">Step 1</span>
+      </div>
+      <div class="deck">
+        <article class="card" style="--rx: -4deg; --ry: 2deg;">
+          <h3>The Problem</h3>
+          <p>Manual wall measurement is slow, inconsistent, and risky in active spaces.</p>
+        </article>
+        <article class="card" style="--rx: 2deg; --ry: -3deg;">
+          <h3>The Solution</h3>
+          <p>Use mobile camera inputs plus geometric logic to estimate height quickly.</p>
+        </article>
+        <article class="card" style="--rx: -2deg; --ry: -1deg;">
+          <h3>Why It Matters</h3>
+          <p>Better speed and accuracy reduce project rework and material wastage.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">Camera Logic</h2>
+        <span class="chip">Step 2</span>
+      </div>
+      <div class="grid-2">
+        <article class="card" style="--rx: -2deg; --ry: 2deg;">
+          <h3>1. Capture</h3>
+          <p>The user points the camera at a wall with floor and vertical edges visible.</p>
+        </article>
+        <article class="card" style="--rx: 2deg; --ry: -2deg;">
+          <h3>2. Detect</h3>
+          <p>Vision logic identifies anchor lines, perspective tilt, and wall boundaries.</p>
+        </article>
+        <article class="card" style="--rx: -2deg; --ry: 1deg;">
+          <h3>3. Scale</h3>
+          <p>Distance cues are converted to a real-world scale estimate.</p>
+        </article>
+        <article class="card" style="--rx: 2deg; --ry: -1deg;">
+          <h3>4. Output</h3>
+          <p>The app returns a readable height value for immediate planning use.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">Workflow</h2>
+        <span class="chip">Step 3</span>
+      </div>
+      <div class="timeline">
+        <article class="step"><div class="badge">Step 01</div><p>Survey room and capture wall candidates with enough floor context.</p></article>
+        <article class="step"><div class="badge">Step 02</div><p>Validate camera framing and run automated boundary detection.</p></article>
+        <article class="step"><div class="badge">Step 03</div><p>Review estimated height and save each wall with project labels.</p></article>
+        <article class="step"><div class="badge">Step 04</div><p>Export measurements to planning sheets and execution checklists.</p></article>
+      </div>
+    </section>
+
+    <section class="panel reveal" id="benefits">
+      <div class="section-head">
+        <h2 class="section-title">Benefits</h2>
+        <span class="chip">Step 4</span>
+      </div>
+      <div class="deck">
+        <article class="card" style="--rx: -3deg; --ry: 2deg;"><h3>Faster Surveys</h3><p>Capture and estimate wall height in minutes instead of repeated manual passes.</p></article>
+        <article class="card" style="--rx: 2deg; --ry: -2deg;"><h3>Safer Process</h3><p>Reduce ladder dependency for first-level planning measurements.</p></article>
+        <article class="card" style="--rx: -2deg; --ry: -1deg;"><h3>Lower Rework</h3><p>Improve measurement consistency before execution starts.</p></article>
+        <article class="card" style="--rx: 2deg; --ry: 2deg;"><h3>Better Collaboration</h3><p>Shared digital values can be reviewed by designers and site teams.</p></article>
+        <article class="card" style="--rx: -2deg; --ry: 1deg;"><h3>Cost Efficiency</h3><p>Less wastage from inaccurate assumptions and late corrections.</p></article>
+        <article class="card" style="--rx: 1deg; --ry: -2deg;"><h3>Scalable Use</h3><p>Works for individual consultants, studios, and multi-site teams.</p></article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">Use Cases</h2>
+        <span class="chip">Step 5</span>
+      </div>
+      <div class="list">
+        <article class="list-item"><strong>Interior Designers</strong><span>Validate dimensions early and avoid redesigns later.</span></article>
+        <article class="list-item"><strong>Architects</strong><span>Collect field data quickly during early concept validation.</span></article>
+        <article class="list-item"><strong>Contractors</strong><span>Estimate height-dependent tasks with less manual effort.</span></article>
+        <article class="list-item"><strong>Renovation Teams</strong><span>Improve planning speed for multi-room retrofits.</span></article>
+        <article class="list-item"><strong>Facility Managers</strong><span>Track interior dimensions for maintenance and upgrades.</span></article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">How It Works</h2>
+        <span class="chip">Step 6</span>
+      </div>
+      <div class="deck">
+        <article class="card" style="--rx: -2deg; --ry: 2deg;"><h3>01</h3><p>Open the app and target the wall area.</p></article>
+        <article class="card" style="--rx: 2deg; --ry: -1deg;"><h3>02</h3><p>Ensure clear visibility of wall-floor boundaries.</p></article>
+        <article class="card" style="--rx: -2deg; --ry: -1deg;"><h3>03</h3><p>Run boundary and perspective detection.</p></article>
+        <article class="card" style="--rx: 2deg; --ry: 1deg;"><h3>04</h3><p>Generate estimated wall height instantly.</p></article>
+        <article class="card" style="--rx: -1deg; --ry: -2deg;"><h3>05</h3><p>Save and share measurement for planning.</p></article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">FAQ</h2>
+        <span class="chip">Step 7</span>
+      </div>
+      <details open><summary>Is FYXO a replacement for all measurement tools?</summary><p>It is ideal for early planning and quick digital surveys. Critical execution phases may still require final physical validation.</p></details>
+      <details><summary>Does it work only for homes?</summary><p>No. The workflow can be used in offices, retail spaces, and renovation sites.</p></details>
+      <details><summary>What devices are needed?</summary><p>A smartphone with a stable camera and adequate lighting conditions is enough for initial use.</p></details>
+      <details><summary>What is next in the roadmap?</summary><p>Project history, export templates, and team collaboration controls are planned additions.</p></details>
+    </section>
+
+    <section class="panel reveal" id="demo">
+      <div class="section-head">
+        <h2 class="section-title">Live Demo</h2>
+        <span class="chip">Step 8</span>
+      </div>
+      <div class="demo-grid">
+        <article class="panel">
+          <h2>Camera Preview</h2>
+          <div class="preview">
+            <video id="camera" autoplay playsinline muted></video>
+            <div class="overlay"><div class="scan-line"></div></div>
+          </div>
+          <div class="btns">
+            <button id="startCam" type="button">Start Camera</button>
+            <button id="stopCam" class="muted-btn" type="button">Stop Camera</button>
+          </div>
+          <p class="status" id="camStatus">Camera is not started.</p>
+        </article>
+
+        <article class="panel">
+          <h2>Measurement Configuration</h2>
+          <div class="form-grid">
+            <label>
+              Reference object height (cm)
+              <input id="refHeightCm" type="number" min="10" max="300" value="170">
+            </label>
+            <label>
+              Reference object visual size (pixels)
+              <input id="refPixels" type="range" min="40" max="400" value="180">
+            </label>
+            <label>
+              Wall visual size (pixels)
+              <input id="wallPixels" type="range" min="80" max="700" value="430">
+            </label>
+          </div>
+
+          <div class="btns">
+            <button id="calcBtn" type="button">Calculate Height</button>
+            <button id="sampleBtn" class="muted-btn" type="button">Load Sample Values</button>
+          </div>
+
+          <div class="result" id="resultBox" hidden>
+            Estimated wall height: <strong id="resultValue">0 cm</strong>
+          </div>
+
+          <p class="note">Formula used: wall height = reference height x (wall pixels / reference pixels). This is a demo approximation for presentation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="section-head">
+        <h2 class="section-title">Contact</h2>
+        <span class="chip">Reach us</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><span>Email</span><a href="mailto:contact@fyxo.ai">contact@fyxo.ai</a></div>
+        <div class="contact-item"><span>Phone</span><a href="tel:+919999999999">+91 99999 99999</a></div>
+        <div class="contact-item"><span>Office</span><strong>Hyderabad, India</strong></div>
+        <div class="contact-item"><span>Hours</span><strong>Mon-Sat, 10:00 AM to 7:00 PM</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    FYXO Spaces &copy; 2026 | Smart measurement for modern teams
+  </footer>
+
+  <script>
+    const video = document.getElementById("camera");
+    const startCamBtn = document.getElementById("startCam");
+    const stopCamBtn = document.getElementById("stopCam");
+    const camStatus = document.getElementById("camStatus");
+
+    const refHeightInput = document.getElementById("refHeightCm");
+    const refPixelsInput = document.getElementById("refPixels");
+    const wallPixelsInput = document.getElementById("wallPixels");
+    const calcBtn = document.getElementById("calcBtn");
+    const sampleBtn = document.getElementById("sampleBtn");
+    const resultBox = document.getElementById("resultBox");
+    const resultValue = document.getElementById("resultValue");
+
+    let streamRef = null;
+
+    async function startCamera() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        camStatus.textContent = "Camera API is not supported in this browser.";
+        return;
+      }
+      try {
+        streamRef = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+          audio: false
+        });
+        video.srcObject = streamRef;
+        camStatus.textContent = "Camera active. You can now test measurement settings.";
+      } catch (err) {
+        camStatus.textContent = "Camera access denied or unavailable. You can still use sample values.";
+      }
+    }
+
+    function stopCamera() {
+      if (streamRef) {
+        streamRef.getTracks().forEach((track) => track.stop());
+        streamRef = null;
+      }
+      video.srcObject = null;
+      camStatus.textContent = "Camera stopped.";
+    }
+
+    function calculateHeight() {
+      const refHeight = Number(refHeightInput.value);
+      const refPixels = Number(refPixelsInput.value);
+      const wallPixels = Number(wallPixelsInput.value);
+
+      if (!refHeight || !refPixels || !wallPixels || refPixels <= 0) {
+        camStatus.textContent = "Please enter valid measurement values.";
+        return;
+      }
+
+      const wallHeightCm = (refHeight * wallPixels) / refPixels;
+      const wallHeightFt = wallHeightCm / 30.48;
+
+      resultValue.textContent = `${wallHeightCm.toFixed(1)} cm (${wallHeightFt.toFixed(2)} ft)`;
+      resultBox.hidden = false;
+    }
+
+    function loadSample() {
+      refHeightInput.value = "170";
+      refPixelsInput.value = "180";
+      wallPixelsInput.value = "430";
+      calculateHeight();
+    }
+
+    startCamBtn.addEventListener("click", startCamera);
+    stopCamBtn.addEventListener("click", stopCamera);
+    calcBtn.addEventListener("click", calculateHeight);
+    sampleBtn.addEventListener("click", loadSample);
+
+    window.addEventListener("beforeunload", stopCamera);
+  </script>
+</body>
+</html>
